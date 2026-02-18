@@ -1,7 +1,7 @@
 {
-  "installCommand": "npm install --prefix chat-frontend",
-  "buildCommand": "npm --prefix chat-frontend run build",
-  "outputDirectory": "chat-frontend/dist",
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/(.*)",
