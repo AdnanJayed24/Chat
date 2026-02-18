@@ -3,7 +3,7 @@ import api from "../api/axios";
 import socket from "../socket/socket";
 import ChatList from "../components/ChatList";
 import MessageBox from "../components/MessageBox";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/auth-context";
 
 export default function Chat() {
   const { logout } = useContext(AuthContext);

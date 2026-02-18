@@ -7,7 +7,7 @@ const chatRoutes = require("./routes/chat.routes");
 const app = express();
 
 const allowedOrigins = (process.env.FRONTEND_ORIGINS ||
-  "https://chat-2iuj.vercel.app,http://localhost:5173,http://localhost:3000")
+  "http://localhost:5173,http://localhost:3000")
   .split(",")
   .map((origin) => origin.trim().replace(/\/$/, ""))
   .filter(Boolean);
@@ -19,7 +19,7 @@ app.use(
       if (!origin) return callback(null, true);
 
       const normalizedOrigin = origin.replace(/\/$/, "");
-      if (allowedOrigins.includes(normalizedOrigin)) {
+      if (allowedOrigins.includes("*") || allowedOrigins.includes(normalizedOrigin)) {
         return callback(null, true);
       }
 
@@ -32,7 +32,25 @@ app.use(
 );
 app.use(express.json());
 
+app.get("/", (_req, res) => {
+  res.json({ status: "ok", service: "chat-backend" });
+});
+
+app.get("/health", (_req, res) => {
+  res.json({ status: "ok" });
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/chat", chatRoutes);
+
+app.use((req, res) => {
+  res.status(404).json({ message: `Route not found: ${req.method} ${req.originalUrl}` });
+});
+
+app.use((err, _req, res, _next) => {
+  const message = err?.message || "Internal server error";
+  const status = err?.status || 500;
+  res.status(status).json({ message });
+});
 
 module.exports = app;

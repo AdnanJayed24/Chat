@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import api from "../api/axios";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/auth-context";
 
 export default function Login() {
   const { login } = useContext(AuthContext);

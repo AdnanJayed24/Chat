@@ -1,7 +1,6 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import socket from "../socket/socket";
-
-export const AuthContext = createContext();
+import { AuthContext } from "./auth-context";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(

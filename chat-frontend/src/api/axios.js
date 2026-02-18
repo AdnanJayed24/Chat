@@ -1,7 +1,13 @@
 import axios from "axios";
 
-const apiBaseUrl =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
+const trimTrailingSlash = (value = "") => value.replace(/\/$/, "");
+
+const configuredApiBaseUrl = trimTrailingSlash(import.meta.env.VITE_API_BASE_URL || "");
+const inferredProdApiBaseUrl =
+  typeof window !== "undefined" ? `${window.location.origin}/api` : "/api";
+
+const apiBaseUrl = configuredApiBaseUrl ||
+  (import.meta.env.DEV ? "http://localhost:5000/api" : inferredProdApiBaseUrl);
 
 const api = axios.create({
   baseURL: apiBaseUrl,
